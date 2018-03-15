@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.cordova.teamViewerSDK"
+        version="0.1.0">
+
+  <name>Team Viewer SDK</name>
+  <description>A Cordova plugin that provides interface for native Android and iOS Team Viewer SDK.</description>
+  <author>Vladislav Dugnist</author>
+  <keywords>teamviewer, team, viewer, remote, access</keywords>
+  <license>Apache 2.0 License</license>
+
+  <js-module src="www/teamViewerSDK.js" name="TeamViewerSDK">
+    <clobbers target="TeamViewerSDK"/>
+  </js-module>
+
+  <!-- android -->
+  <platform name="android">
+    <!-- SDK methods mapping -->
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="TeamViewerSDK">
+          <param name="android-package" value="com.cordova.teamViewerSDK.TeamViewerSDK" />
+      </feature>
+    </config-file>
+
+    <!-- Adding permissions to manifest -->
+    <config-file parent="/manifest" target="AndroidManifest.xml">
+           <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    </config-file>
+
+    <source-file src="src/android/TeamViewerSDK.java" target-dir="src/com/cordova/teamViewerSDK"/>
+
+    <!-- adding team viewer sdk -->
+    <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+    <resource-file src="lib/android/ScreenSharingSDK.aar" target="lib/android/ScreenSharingSDK.aar" />
+  </platform>
+
+  <!-- ios -->
+  <platform name="ios">
+    <!-- SDK methods mapping -->
+    <config-file target="config.xml" parent="/*">
+      <feature name="TeamViewerSDK">
+        <param name="ios-package" value="CDVTeamViewerSDK" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/CDVTeamViewerSDK.h" />
+    <source-file src="src/ios/CDVTeamViewerSDK.m" />
+
+    <!-- adding team viewer sdk -->
+    <framework src="lib/ios/ScreenSharingSDK.framework" custom="true"/>
+    <framework src="SystemConfiguration.framework" />
+    <framework src="AudioToolbox.framework" />
+    <framework src="UIKit.framework" />
+    <framework src="libz.tbd" />
+    <framework src="QuartzCore.framework" />
+    <framework src="Security.framework" />
+    <framework src="libz.dylib" />
+    <framework src="libstdc++.dylib" />
+    <resource-file src="lib/ios/ScreenSharingSDK.framework/Resources/ScreenSharingSDKResources.bundle" />
+  </platform>
+
+</plugin>
